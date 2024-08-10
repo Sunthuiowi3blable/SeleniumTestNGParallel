@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite Parallel Testing By Classes" verbose="1" parallel="classes">
+    <test name="Parallel Testing By Classes" parallel="methods" thread-count="8">
+        <classes>
+            <class name="BT5BT6BT7BT8BT9.testcases.LoginTest">               <methods>
+                    <include name="testLoginSuccess"/>
+                    <include name="testLoginFailWithEmailNull"/>
+                </methods>
+            </class>
+            <class name="BT5BT6BT7BT8BT9.testcases.InHouseProductsTest">
+                <methods>
+                    <include name="testEditNewProduct"/>
+                    <include name="testEditProduct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

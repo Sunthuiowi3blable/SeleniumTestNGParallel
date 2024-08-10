@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite Parallel Testing By Classes" verbose="1">
+    <test name="Parallel Testing By Classes" parallel="classes">
+        <parameter name="browser" value="firefox"></parameter>
+        <classes>
+            <class name="BT5BT6BT7BT8BT9.testcases.LoginTest"></class>
+            <class name="BT5BT6BT7BT8BT9.testcases.InHouseProductsTest"></class>
+        </classes>
+    </test>
+</suite>
