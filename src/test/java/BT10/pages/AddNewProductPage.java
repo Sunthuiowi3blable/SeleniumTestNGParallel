@@ -5,6 +5,8 @@ import keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.util.Hashtable;
+
 public class AddNewProductPage extends CommonPage {
 
     //Khai báo hàm xây dựng
@@ -153,46 +155,40 @@ public class AddNewProductPage extends CommonPage {
     }
 
     //Hàm nhập thông tin trong trang
-    public void enterDataAddNewProduct(String productName, String categoryName){
-
-        //Khởi tạo đối tượng ExcelHelper (file Excel)
-        excelHelper = new ExcelHelper();
-
-        //Đọc Data từ file Excel
-        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "AddNewProduct");
+    public void enterDataAddNewProduct(Hashtable<String, String> data){
 
         WebUI.waitForPageLoaded();
 
-        WebUI.setText(inputProductName, productName);
+        WebUI.setText(inputProductName, data.get("PRODUCT NAME"));
 
         WebUI.clickElement(selectCategory);
-        WebUI.setText(inputCategory, categoryName);
+        WebUI.setText(inputCategory, data.get("CATEGORY"));
         WebUI.setKey(inputCategory, Keys.ENTER);
 
         WebUI.clickElement(selectBrand);
-        WebUI.setText(inputBrand, excelHelper.getCellData("BRAND", 1));
+        WebUI.setText(inputBrand, data.get("BRAND"));
         WebUI.setKey(inputBrand, Keys.ENTER);
 
-        WebUI.setText(inputUnit, excelHelper.getCellData("UNIT", 1));
+        WebUI.setText(inputUnit, data.get("UNIT"));
 
         WebUI.clearText(inputWeight);
-        WebUI.setText(inputWeight, excelHelper.getCellData("WEIGHT", 1));
+        WebUI.setText(inputWeight, data.get("WEIGHT"));
 
         WebUI.clearText(inputMinimumPurchaseQty);
-        WebUI.setText(inputMinimumPurchaseQty, excelHelper.getCellData("MINIMUM PURCHASE QTY", 1));
+        WebUI.setText(inputMinimumPurchaseQty, data.get("MINIMUM PURCHASE QTY"));
 
-        WebUI.setText(inputTags, excelHelper.getCellData("TAGS", 1));
+        WebUI.setText(inputTags, data.get("TAGS"));
 
         WebUI.clickElement(buttonBrowseGalleryImages);
         WebUI.sleep(1);
-        WebUI.setText(inputSearchGalleryImages, excelHelper.getCellData("GALLERY IMAGES", 1));
+        WebUI.setText(inputSearchGalleryImages, data.get("GALLERY IMAGES"));
         WebUI.sleep(2);
         WebUI.clickElement(itemGalleryImages);
         WebUI.clickElement(buttonAddFilesGalleryImages);
 
         WebUI.clickElement(buttonBrowseThumbnailImages, 30);
         WebUI.sleep(1);
-        WebUI.setText(inputSearchThumbnailImages, excelHelper.getCellData("THUMBNAIL IMAGE", 1));
+        WebUI.setText(inputSearchThumbnailImages, data.get("THUMBNAIL IMAGE"));
         WebUI.sleep(1);
         WebUI.clickElement(itemThumbnailImages);
         WebUI.clickElement(buttonAddFilesThumbnailImages);
@@ -202,7 +198,7 @@ public class AddNewProductPage extends CommonPage {
         WebUI.clickElement(selectVideoProvider);
         WebUI.clickElement(itemVideoProvider, 30);
 
-        WebUI.setText(inputVideoLink, excelHelper.getCellData("VIDEO LINK", 1));
+        WebUI.setText(inputVideoLink, data.get("VIDEO LINK"));
 
         WebUI.clickElement(buttonColors);
         WebUI.clickElement(selectColors);
@@ -219,15 +215,15 @@ public class AddNewProductPage extends CommonPage {
         WebUI.clickElement(selectAttributes);
 
         WebUI.clickElement(selectSize);
-        WebUI.setText(inputSize, excelHelper.getCellData("SIZE", 1));
+        WebUI.setText(inputSize, data.get("SIZE"));
         WebUI.setKey(inputSize, Keys.ENTER);
-        WebUI.clearText(inputSize);
-        WebUI.setText(inputSize, excelHelper.getCellData("SIZE", 2));
-        WebUI.setKey(inputSize, Keys.ENTER);
+//        WebUI.clearText(inputSize);
+//        WebUI.setText(inputSize, data.get("SIZE"));
+//        WebUI.setKey(inputSize, Keys.ENTER);
         WebUI.clickElement(selectSize);
 
         WebUI.clearText(inputUnitPrice);
-        WebUI.setText(inputUnitPrice, excelHelper.getCellData("UNIT PRICE", 1));
+        WebUI.setText(inputUnitPrice, data.get("UNIT PRICE"));
 
         WebUI.clickElement(selectDiscountDateRange);
         WebUI.clickElement(itemDepartureDay);
@@ -243,22 +239,22 @@ public class AddNewProductPage extends CommonPage {
         WebUI.clickElement(buttonSelect);
 
         WebUI.clearText(inputDiscount);
-        WebUI.setText(inputDiscount, excelHelper.getCellData("DISCOUNT", 1));
+        WebUI.setText(inputDiscount, data.get("DISCOUNT"));
         WebUI.clickElement(selectDiscount);
         WebUI.sleep(1);
         WebUI.clickElement(itemDiscount);
 
-        WebUI.setText(inputExternalLink, excelHelper.getCellData("EXTERNAL LINK", 1));
+        WebUI.setText(inputExternalLink, data.get("EXTERNAL LINK"));
 
-        WebUI.setText(inputExternalLinkButtonText, excelHelper.getCellData("EXTERNAL LINK BUTTON TEXT", 1));
+        WebUI.setText(inputExternalLinkButtonText, data.get("EXTERNAL LINK BUTTON TEXT"));
 
-        WebUI.setText(inputMetaTitle, excelHelper.getCellData("META TITLE", 1));
+        WebUI.setText(inputMetaTitle, data.get("META TITLE"));
 
-        WebUI.setText(inputDescription, excelHelper.getCellData("DESCRIPTION", 1));
+        WebUI.setText(inputDescription, data.get("DESCRIPTION"));
 
         WebUI.clickElement(buttonBrowseMetaImage);
         WebUI.sleep(1);
-        WebUI.setText(inputSearchMetaImage, excelHelper.getCellData("META IMAGE", 1));
+        WebUI.setText(inputSearchMetaImage, data.get("META IMAGE"));
         WebUI.sleep(2);
         WebUI.clickElement(itemMetaImage);
         WebUI.clickElement(buttonAddFilesMetaImage);
@@ -266,10 +262,10 @@ public class AddNewProductPage extends CommonPage {
         WebUI.sleep(2);
 
         WebUI.clearText(inputQuantity);
-        WebUI.setText(inputQuantity, excelHelper.getCellData("QUANTITY", 1));
+        WebUI.setText(inputQuantity, data.get("QUANTITY"));
 
         WebUI.clearText(inputTax);
-        WebUI.setText(inputTax, excelHelper.getCellData("TAX", 1));
+        WebUI.setText(inputTax, data.get("TAX"));
         selecttax("0");
     }
 

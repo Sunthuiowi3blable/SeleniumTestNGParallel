@@ -3,8 +3,11 @@ package BT10.testcases;
 import BT10.pages.LoginPage;
 import common.BaseTest;
 import constants.ConfigData;
+import dataproviders.DataProviderFactory;
 import helpers.ExcelHelper;
 import org.testng.annotations.Test;
+
+import java.util.Hashtable;
 
 public class LoginTest extends BaseTest {
 
@@ -12,7 +15,7 @@ public class LoginTest extends BaseTest {
     private LoginPage loginPage;
     private ExcelHelper excelHelper;
 
-    //Testcase đăng nhập thành công
+    //Testcase đăng nhập thành công lấy data trực tiếp bằng file excel
     @Test
     public void testLoginSuccess(){
         //Khởi tạo đối tượng
@@ -31,9 +34,48 @@ public class LoginTest extends BaseTest {
         loginPage.verifyLoginSuccess();
     }
 
+    //Testcase đăng nhập thành công với data provider
+    @Test (dataProvider = "data_provider_login", dataProviderClass = DataProviderFactory.class)
+    public void testLoginSuccessDataProvider(String email, String password){
+        //Khởi tạo đối tượng
+        loginPage = new LoginPage();
+
+        //Gọi hàm đăng nhập
+        loginPage.loginCMS(email, password);
+
+        //Gọi hàm xử lý đăng nhập thành công
+        loginPage.verifyLoginSuccess();
+    }
+
+    //Testcase đăng nhập thành công với data đọc từ file excel với dataprovider
+    @Test (dataProvider = "data_provider_login_excel", dataProviderClass = DataProviderFactory.class)
+    public void testLoginSuccessDataProviderFromExcel(String email, String password){
+        //Khởi tạo đối tượng
+        loginPage = new LoginPage();
+
+        //Gọi hàm đăng nhập
+        loginPage.loginCMS(email, password);
+
+        //Gọi hàm xử lý đăng nhập thành công
+        loginPage.verifyLoginSuccess();
+    }
+
+    //Testcase đăng nhập thành công với data đọc từ file excel với dataprovider
+    @Test (dataProvider = "data_provider_login_excel_hashtable", dataProviderClass = DataProviderFactory.class)
+    public void testLoginSuccessDataProviderFromExcel_Hashtable(Hashtable<String, String> data){
+        //Khởi tạo đối tượng
+        loginPage = new LoginPage();
+
+        //Gọi hàm đăng nhập
+        loginPage.loginCMS(data.get("EMAIL"), data.get("PASSWORD"));
+
+        //Gọi hàm xử lý đăng nhập thành công
+        loginPage.verifyLoginSuccess();
+    }
+
     //Testcase đăng nhập không thành công với email trống (null)
-    @Test
-    public void testLoginFailWithEmailNull(){
+    @Test (dataProvider = "data_provider_login_fail_with_email_null_excel_hashtable", dataProviderClass = DataProviderFactory.class)
+    public void testLoginFailWithEmailNull(Hashtable<String, String> data){
         //Khởi tạo đối tượng
         loginPage = new LoginPage();
 
@@ -44,7 +86,7 @@ public class LoginTest extends BaseTest {
         excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Login");
 
         //Gọi hàm đăng nhập
-        loginPage.loginCMS("", excelHelper.getCellData("PASSWORD", 2));
+        loginPage.loginCMS(data.get("EMAIL"), data.get("PASSWORD"));
 
         //Gọi hàm xử lý đăng nhập không thành công với email trống (null)
         loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 2));

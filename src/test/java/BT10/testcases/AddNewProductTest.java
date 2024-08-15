@@ -6,8 +6,11 @@ import BT10.pages.DashboardPage;
 import BT10.pages.LoginPage;
 import common.BaseTest;
 import constants.ConfigData;
+import dataproviders.DataProviderFactory;
 import helpers.ExcelHelper;
 import org.testng.annotations.Test;
+
+import java.util.Hashtable;
 
 public class AddNewProductTest extends BaseTest {
 
@@ -18,8 +21,8 @@ public class AddNewProductTest extends BaseTest {
     AllProductsPage allProductsPage;
     private ExcelHelper excelHelper;
 
-    @Test
-    public void testAddNewProductSuccess(){
+    @Test(dataProvider = "data_provider_addnewproduct_excel_hashtable", dataProviderClass = DataProviderFactory .class)
+    public void testAddNewProductSuccess(Hashtable<String, String> data){
 
         loginPage = new LoginPage();
 
@@ -35,13 +38,10 @@ public class AddNewProductTest extends BaseTest {
         //LIÊN KẾT TRANG: từ trang dashboardPage sang trang addNewProductPage
         addNewProductPage = dashboardPage.clickMenuAddNewProductWithMenuProducts();
 
-        //Đọc Data từ file Excel
-        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "AddNewProduct");
-
-        addNewProductPage.enterDataAddNewProduct(excelHelper.getCellData("PRODUCT NAME", 1), excelHelper.getCellData("CATEGORY", 1));
+        addNewProductPage.enterDataAddNewProduct(data);
 
         //LIÊN KẾT TRANG: từ trang addNewProductPage sang trang allProductsPage
         allProductsPage = addNewProductPage.clickButtonSavePublish();
-        allProductsPage.verifySearchProduct(excelHelper.getCellData("PRODUCT NAME", 1));
+        allProductsPage.verifySearchProduct(data);
     }
 }

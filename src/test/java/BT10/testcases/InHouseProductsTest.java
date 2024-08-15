@@ -3,7 +3,11 @@ package BT10.testcases;
 import BT10.pages.*;
 import common.BaseTest;
 import constants.ConfigData;
+import dataproviders.DataProviderFactory;
+import helpers.ExcelHelper;
 import org.testng.annotations.Test;
+
+import java.util.Hashtable;
 
 public class InHouseProductsTest extends BaseTest {
 
@@ -13,26 +17,30 @@ public class InHouseProductsTest extends BaseTest {
     AllProductsPage allProductsPage;
     AddNewProductPage addNewProductPage;
     DashboardPage dashboardPage;
+    ExcelHelper excelHelper;
 
     //Test edit product vừa thêm
-    @Test
-    public void testEditNewProduct(){
-
-        String NAME_PRODUCT = "GIOQUAMH";
-        String CATEGORY_NAME = "sunthuiowi11";
+    @Test (dataProvider = "data_provider_addnewproduct_excel_hashtable", dataProviderClass = DataProviderFactory.class)
+    public void testEditNewProduct(Hashtable<String, String> data){
 
         loginPage = new LoginPage();
 
+        //Khởi tạo đối tượng ExcelHelper (file Excel)
+        excelHelper = new ExcelHelper();
+
+        //Đọc Data từ file Excel
+        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Login");
+
         //LIÊN KẾT TRANG: Khi loginCMS đăng nhập xong thì nó sẽ chuyển đến dashboardPage
-        dashboardPage = loginPage.loginCMS(ConfigData.EMAIL, ConfigData.PASSWORD);
+        dashboardPage = loginPage.loginCMS(excelHelper.getCellData("EMAIL", 1), excelHelper.getCellData("PASSWORD", 1));
 
         //LIÊN KẾT TRANG: Từ trang dashboardPage chuyển sang trang addNewProductPage
         addNewProductPage = dashboardPage.clickMenuAddNewProductWithMenuProducts();
-        addNewProductPage.enterDataAddNewProduct(NAME_PRODUCT, CATEGORY_NAME);
+        addNewProductPage.enterDataAddNewProduct(data);
 
         //LIÊN KẾT TRANG: Từ trang addNewProductPage chuyển sang trang allProductsPage
         allProductsPage = addNewProductPage.clickButtonSavePublish();
-        allProductsPage.verifySearchProduct(NAME_PRODUCT);
+        allProductsPage.verifySearchProduct(data);
 
         //LIÊN KẾT TRANG: Từ trang allProductsPage chuyển sang trang inHouseProductsPage
         inHouseProductsPage = allProductsPage.clickButtonEdit();
@@ -40,18 +48,23 @@ public class InHouseProductsTest extends BaseTest {
     }
 
     //Test edit product tùy ý
-    @Test
-    public void testEditProduct(){
+    @Test(dataProvider = "data_provider_addnewproduct_excel_hashtable", dataProviderClass = DataProviderFactory .class)
+    public void testEditProduct(Hashtable<String, String> data){
 
-        String NAME_PRODUCT = "GIOQUAMH";
         loginPage = new LoginPage();
 
+        //Khởi tạo đối tượng ExcelHelper (file Excel)
+        excelHelper = new ExcelHelper();
+
+        //Đọc Data từ file Excel
+        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Login");
+
         //LIÊN KẾT TRANG: Khi loginCMS đăng nhập xong thì nó sẽ chuyển đến dashboardPage
-        dashboardPage = loginPage.loginCMS(ConfigData.EMAIL, ConfigData.PASSWORD);
+        dashboardPage = loginPage.loginCMS(excelHelper.getCellData("EMAIL", 1), excelHelper.getCellData("PASSWORD", 1));
 
         //LIÊN KẾT TRANG: Từ trang dashboardPage chuyển sang trang allProductsPage
         allProductsPage = dashboardPage.clickMenuAllProductsWithMenuProducts();
-        allProductsPage.searchProduct(NAME_PRODUCT);
+        allProductsPage.searchProduct(data);
 
         //LIÊN KẾT TRANG: Từ trang allProductsPage chuyển sang trang inHouseProductsPage
         inHouseProductsPage = allProductsPage.clickButtonEdit();

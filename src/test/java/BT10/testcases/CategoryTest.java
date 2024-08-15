@@ -5,8 +5,11 @@ import BT10.pages.DashboardPage;
 import BT10.pages.LoginPage;
 import common.BaseTest;
 import constants.ConfigData;
+import dataproviders.DataProviderFactory;
 import helpers.ExcelHelper;
 import org.testng.annotations.Test;
+
+import java.util.Hashtable;
 
 public class CategoryTest extends BaseTest {
 
@@ -16,8 +19,8 @@ public class CategoryTest extends BaseTest {
     private CategoryPage categoryPage;
     private ExcelHelper excelHelper;
 
-    @Test
-    public void testAddNewCategory (){
+    @Test (dataProvider = "data_provider_category_excel_hashtable", dataProviderClass = DataProviderFactory.class)
+    public void testAddNewCategory (Hashtable<String, String> data){
 
         //Khởi tạo đối tượng
         loginPage = new LoginPage();
@@ -38,8 +41,8 @@ public class CategoryTest extends BaseTest {
         excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Category");
 
         categoryPage.clickButtonAddNewCategory();
-        categoryPage.enterDataAddNewCategory(excelHelper.getCellData("NAME", 1), excelHelper.getCellData("PARENT CATEGORY", 1));
-        categoryPage.checkCategoryInTableList(excelHelper.getCellData("NAME", 1));
-        categoryPage.checkCategoryDetail(excelHelper.getCellData("NAME", 1), excelHelper.getCellData("PARENT CATEGORY", 1));
+        categoryPage.enterDataAddNewCategory(data);
+        categoryPage.checkCategoryInTableList(data);
+        categoryPage.checkCategoryDetail(data);
     }
 }

@@ -5,6 +5,8 @@ import keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.util.Hashtable;
+
 public class BrandPage extends CommonPage {
 
     public BrandPage() {
@@ -40,41 +42,35 @@ public class BrandPage extends CommonPage {
 
     // **Hàm xử lý cho trang Brand**
     //Hàm thay đổi Xpath itemBrand theo Name Brand
-    public String changeItemBrandXpath(String brandName){
-        return WebUI.getElementText(By.xpath("(//td[normalize-space()='"+ brandName +"'])[1]"));
+    public String changeItemBrandXpath(Hashtable <String, String> data){
+        return WebUI.getElementText(By.xpath("(//td[normalize-space()='"+ data.get("NAME") +"'])[1]"));
     }
 
     //Hàm nhập thông tin trong trang Brand
-    public void enterDataBrand(String brandName){
+    public void enterDataBrand(Hashtable<String, String> data){
 
-        //Khởi tạo đối tượng ExcelHelper (file Excel)
-        excelHelper = new ExcelHelper();
-
-        //Đọc Data từ file Excel
-        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Brand");
-
-        WebUI.setText(inputBrandName, brandName);
+        WebUI.setText(inputBrandName, data.get("NAME"));
         WebUI.clickElement(buttonBrowseLogo);
         WebUI.sleep(2);
-        WebUI.setText(inputSearchLogo, excelHelper.getCellData("LOGO", 1));
+        WebUI.setText(inputSearchLogo, data.get("LOGO"));
         WebUI.setKey(inputSearchLogo, Keys.ENTER);
         //WebUI.waitForElementClickable(itemLogo);
         WebUI.sleep(1);
         WebUI.clickElement(itemLogo);
         WebUI.clickElement(buttonAddFilesLogo);
         WebUI.waitForElementClickable(inputMetaTitle);
-        WebUI.setText(inputMetaTitle, excelHelper.getCellData("META TITLE", 1));
-        WebUI.setText(inputMetaDescription, excelHelper.getCellData("META DESCRIPTION", 1));
+        WebUI.setText(inputMetaTitle, data.get("META TITLE"));
+        WebUI.setText(inputMetaDescription, data.get("META DESCRIPTION"));
         WebUI.clickElement(buttonSave);
     }
 
     //Hàm kiểm tra xem New Brand đã được add thành công chưa
-    public void verifySearchBrand(String brandName){
+    public void verifySearchBrand(Hashtable<String, String> data){
         WebUI.sleep(2);
-        WebUI.setText(inputSearchBrand, brandName);
+        WebUI.setText(inputSearchBrand, data.get("NAME"));
         WebUI.setKey(inputSearchBrand, Keys.ENTER);
         WebUI.waitForPageLoaded();
-        WebUI.assertEquals(changeItemBrandXpath(brandName), brandName, "FAIL!! The item new brand not match.");
-        System.out.println("New Brand: " + changeItemBrandXpath(brandName));
+        WebUI.assertEquals(changeItemBrandXpath(data), data.get("NAME"), "FAIL!! The item new brand not match.");
+        System.out.println("New Brand: " + changeItemBrandXpath(data));
     }
 }

@@ -5,6 +5,8 @@ import keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.util.Hashtable;
+
 public class AllProductsPage extends CommonPage {
 
     //Khai báo hàm xây dựng
@@ -25,7 +27,7 @@ public class AllProductsPage extends CommonPage {
         return WebUI.getElementText(By.xpath("(//td[normalize-space()='"+ productName +"'])[1]"));
     }
 
-    public void verifySearchProduct(String productName){
+    public void verifySearchProduct(Hashtable<String, String> data){
 
         //Khởi tạo đối tượng ExcelHelper (file Excel)
         excelHelper = new ExcelHelper();
@@ -33,15 +35,15 @@ public class AllProductsPage extends CommonPage {
         //Đọc Data từ file Excel
         excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "AddNewProduct");
 
-        WebUI.setText(inputSearch, productName);
+        WebUI.setText(inputSearch, data.get("PRODUCT NAME"));
         WebUI.setKey(inputSearch, Keys.ENTER);
 
-        WebUI.assertEquals(changeItemNewProductXpath(productName), excelHelper.getCellData("PRODUCT NAME", 1), "FAIL!! The new product not match.");
-        System.out.println("Text Product: " + changeItemNewProductXpath(productName));
+        WebUI.assertEquals(changeItemNewProductXpath(data.get("PRODUCT NAME")), data.get("PRODUCT NAME"), "FAIL!! The new product not match.");
+        System.out.println("Text Product: " + changeItemNewProductXpath(data.get("PRODUCT NAME")));
     }
 
-    public void searchProduct(String productName){
-        WebUI.setText(inputSearch, productName);
+    public void searchProduct(Hashtable <String, String> data){
+        WebUI.setText(inputSearch, data.get("PRODUCT NAME"));
         WebUI.setKey(inputSearch, Keys.ENTER);
     }
 

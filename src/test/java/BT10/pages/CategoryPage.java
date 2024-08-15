@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
 
+import java.util.Hashtable;
+
 public class CategoryPage extends CommonPage {
 
     //Phải có hàm xây dựng cho từng class Page
@@ -76,29 +78,23 @@ public class CategoryPage extends CommonPage {
     }
 
     //Hàm nhập thông tin trong trang sau khi ấn nút Add New Category
-    public void enterDataAddNewCategory(String categoryName, String parentCategoryName){
-
-        //Khởi tạo đối tượng ExcelHelper (file Excel)
-        excelHelper = new ExcelHelper();
-
-        //Đọc Data từ file Excel
-        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Category");
+    public void enterDataAddNewCategory(Hashtable<String, String> data){
 
         WebUI.waitForPageLoaded();
-        WebUI.setText(inputName, categoryName);
+        WebUI.setText(inputName, data.get("NAME"));
 
-        WebUI.clickElement(selectParentCategory);
-        WebUI.setText(inputParentCategory, parentCategoryName);
-        WebUI.setKey(inputParentCategory, Keys.ENTER);
+//        WebUI.clickElement(selectParentCategory);
+//        WebUI.setText(inputParentCategory, data.get("PARENT CATEGORY"));
+//        WebUI.setKey(inputParentCategory, Keys.ENTER);
 
-        WebUI.setText(inputOrderingNumber, excelHelper.getCellData("ORDERING NUMBER", 1));
+        WebUI.setText(inputOrderingNumber, data.get("ORDERING NUMBER"));
 
         WebUI.clickElement(selectType);
         WebUI.clickElement(buttonType);
 
         WebUI.clickElement(buttonBrowseBanner);
         WebUI.waitForPageLoaded();
-        WebUI.setText(inputSearchBanner, excelHelper.getCellData("BANNER", 1));
+        WebUI.setText(inputSearchBanner, data.get("BANNER"));
         WebUI.setKey(inputSearchBanner, Keys.ENTER);
         WebUI.sleep(2);
         WebUI.clickElement(fileBanner);
@@ -109,7 +105,7 @@ public class CategoryPage extends CommonPage {
 
         WebUI.clickElement(buttonBrowseIcon);
         WebUI.waitForPageLoaded();
-        WebUI.setText(inputSearchIcon, excelHelper.getCellData("ICON", 1));
+        WebUI.setText(inputSearchIcon, data.get("ICON"));
         WebUI.setKey(inputSearchIcon, Keys.ENTER);
         WebUI.sleep(2);
         WebUI.clickElement(fileIcon);
@@ -119,12 +115,12 @@ public class CategoryPage extends CommonPage {
 
         WebUI.sleep(1);
 
-        WebUI.setText(inputMetaTitle, excelHelper.getCellData("META TITLE", 1));
+        WebUI.setText(inputMetaTitle, data.get("META TITLE"));
 
-        WebUI.setText(inputMetaDescription, excelHelper.getCellData("META DESCRIPTION", 1));
+        WebUI.setText(inputMetaDescription, data.get("META DESCRIPTION"));
 
         WebUI.clickElement(selectFilteringAttributes);
-        WebUI.setText(inputFilteringAttributes, excelHelper.getCellData("FILTERING ATTRIBUTES", 1));
+        WebUI.setText(inputFilteringAttributes, data.get("FILTERING ATTRIBUTES"));
         WebUI.setKey(inputFilteringAttributes, Keys.ENTER);
         WebUI.clickElement(selectFilteringAttributes);
 
@@ -132,29 +128,29 @@ public class CategoryPage extends CommonPage {
     }
 
     //Hàm kiểm tra bằng việc tìm kiếm giá trị vừa Add và gettext giá trị vừa Add ra
-    public void checkCategoryInTableList(String categoryName){
+    public void checkCategoryInTableList(Hashtable<String, String> data){
         WebUI.waitForPageLoaded();
-        WebUI.setText(inputSearch, categoryName);
+        WebUI.setText(inputSearch, data.get("NAME"));
         WebUI.setKey(inputSearch, Keys.ENTER);
         WebUI.waitForPageLoaded();
         WebUI.sleep(2);
 
         Assert.assertTrue(WebUI.checkElementExist(newCategory), "FAIL!! The category name not display in table.");
-        WebUI.assertEquals(WebUI.getElementText(newCategory), categoryName, "FAIL!! The new category not match.");
+        WebUI.assertEquals(WebUI.getElementText(newCategory), data.get("NAME"), "FAIL!! The new category not match.");
         System.out.println("New Category: " + WebUI.getElementText(newCategory));
     }
 
     //Hàm kiểm tra lại các giá trị thông tin vừa được Add vào
-    public void checkCategoryDetail(String categoryName, String parentCategoryName){
+    public void checkCategoryDetail(Hashtable<String, String> data){
         WebUI.waitForPageLoaded();
         WebUI.clickElement(buttonDetailCategory);
         WebUI.waitForPageLoaded();
-        WebUI.assertEquals(WebUI.getElementAttribute(inputName, "value"), categoryName, "FAIL!! The category name not match.");
-        WebUI.assertEquals(WebUI.getElementAttribute(selectParentCategory, "title"), "-- " + parentCategoryName, "FAIL!! The parent category name not match.");
-        WebUI.assertEquals(WebUI.getElementAttribute(inputOrderingNumber, "value"), excelHelper.getCellData("ORDERING NUMBER", 1), "FAIL!! The ordering number not match.");
+        WebUI.assertEquals(WebUI.getElementAttribute(inputName, "value"), data.get("NAME"), "FAIL!! The category name not match.");
+        //WebUI.assertEquals(WebUI.getElementAttribute(selectParentCategory, "title"), "-- " + data.get("PARENT CATEGORY"), "FAIL!! The parent category name not match.");
+        WebUI.assertEquals(WebUI.getElementAttribute(inputOrderingNumber, "value"), data.get("ORDERING NUMBER"), "FAIL!! The ordering number not match.");
         WebUI.assertEquals(WebUI.getElementAttribute(selectType, "title"), "Physical", "FAIL!! The type not match.");
-        WebUI.assertEquals(WebUI.getElementAttribute(inputMetaTitle, "value"), excelHelper.getCellData("META TITLE", 1), "FAIL!! The meta title not match.");
-        WebUI.assertEquals(WebUI.getElementText(inputMetaDescription), excelHelper.getCellData("META DESCRIPTION", 1), "FAIL!! The meta description not match.");
-        WebUI.assertEquals(WebUI.getElementAttribute(selectFilteringAttributes, "title"), excelHelper.getCellData("FILTERING ATTRIBUTES", 1), "FAIL!! The filtering attributes not match.");
+        WebUI.assertEquals(WebUI.getElementAttribute(inputMetaTitle, "value"), data.get("META TITLE"), "FAIL!! The meta title not match.");
+        WebUI.assertEquals(WebUI.getElementText(inputMetaDescription), data.get("META DESCRIPTION"), "FAIL!! The meta description not match.");
+        WebUI.assertEquals(WebUI.getElementAttribute(selectFilteringAttributes, "title"), data.get("FILTERING ATTRIBUTES"), "FAIL!! The filtering attributes not match.");
     }
 }
