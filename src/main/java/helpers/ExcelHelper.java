@@ -155,7 +155,7 @@ public class ExcelHelper {
         }
     }
 
-    //Get all data from a sheet, Hàm lấy tất cả dữ liệu trong file excel
+    //Get all data from a sheet, Hàm lấy tất cả dữ liệu trong file excel (cùng kiểu dữ liệu với DataProvider laf Object 2 chiều)
     public Object[][] getExcelData(String filePath, String sheetName) {
         Object[][] data = null;
         Workbook workbook = null;
@@ -232,6 +232,7 @@ public class ExcelHelper {
         return sh.getPhysicalNumberOfRows();
     }
 
+    //Lấy Data trong Excel theo dòng chỉ định (cùng kiểu dữ liệu với DataProvider là Object 2 chiều)
     public Object[][] getDataHashTable(String excelPath, String sheetName, int startRow, int endRow) {
         System.out.println("Excel Path: " + excelPath);
         Object[][] data = null;

@@ -2,6 +2,7 @@
 
 <suite name="Suite Parallel Testing By Methods" verbose="1">
     <test name="Parallel Testing By Methods 01"  parallel="methods">
+        <parameter name="browser" value="chrome"></parameter>
         <classes>
             <class name="BT5BT6BT7BT8BT9.testcases.LoginTest"></class>
         </classes>

@@ -60,7 +60,7 @@ public class CaptureHelper extends ScreenRecorder {
         try {
             screenRecorder = new CaptureHelper(gc, captureSize, new Format(MediaTypeKey, FormatKeys.MediaType.FILE, MimeTypeKey, MIME_AVI), new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey, Rational.valueOf(15), QualityKey, 1.0f, KeyFrameIntervalKey, 15 * 60), new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)), null, file, methodName);
             screenRecorder.start();
-        } catch (IOException e) {
+        }    catch (IOException e) {
             throw new RuntimeException(e);
         } catch (AWTException e) {
             throw new RuntimeException(e);
@@ -96,6 +96,58 @@ public class CaptureHelper extends ScreenRecorder {
         //Lưu file ảnh với tên cụ thể vào đường dẫn
         try {
             FileHandler.copy(source, new File(ConfigData.SCREENSHOT_PATH+ imageName + "-"+ dateFormat.format(new Date()) + ".png"));
+            System.out.println("Screenshot successfully !!");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void screenshotSuccess(String imageName){
+
+        //Tạo format ngày giờ để xíu gắn dô cái name của screenshot hoặc record video không bị trùng tên (không bị ghi đè file)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
+
+        //Tạo tham chiếu của TakesScreenshot
+        TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
+
+        //Gọi hàm để chụp ảnh màn hình
+        File source = ts.getScreenshotAs(OutputType.FILE);
+
+        //Kiểm tra folder tồn tại. Nếu không tồn tại thì tạo folder mới theo đường dẫn
+        File theDir = new File(ConfigData.SUCCESS_SCREENSHOT_PATH);
+        if (!theDir.exists()) {
+            theDir.mkdirs();
+        }
+
+        //Lưu file ảnh với tên cụ thể vào đường dẫn
+        try {
+            FileHandler.copy(source, new File(ConfigData.SUCCESS_SCREENSHOT_PATH+ imageName + "-"+ dateFormat.format(new Date()) + ".png"));
+            System.out.println("Screenshot successfully !!");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void screenshotFail(String imageName){
+
+        //Tạo format ngày giờ để xíu gắn dô cái name của screenshot hoặc record video không bị trùng tên (không bị ghi đè file)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
+
+        //Tạo tham chiếu của TakesScreenshot
+        TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
+
+        //Gọi hàm để chụp ảnh màn hình
+        File source = ts.getScreenshotAs(OutputType.FILE);
+
+        //Kiểm tra folder tồn tại. Nếu không tồn tại thì tạo folder mới theo đường dẫn
+        File theDir = new File(ConfigData.FAIL_SCREENSHOT_PATH);
+        if (!theDir.exists()) {
+            theDir.mkdirs();
+        }
+
+        //Lưu file ảnh với tên cụ thể vào đường dẫn
+        try {
+            FileHandler.copy(source, new File(ConfigData.FAIL_SCREENSHOT_PATH+ imageName + "-"+ dateFormat.format(new Date()) + ".png"));
             System.out.println("Screenshot successfully !!");
         } catch (IOException e) {
             throw new RuntimeException(e);

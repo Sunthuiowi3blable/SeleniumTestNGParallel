@@ -2,12 +2,14 @@ package common;
 
 import drivers.DriverManager;
 import helpers.PropertiesHelper;
+import listeners.TestListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 
+@Listeners(TestListener.class)
 public class BaseTest {
 
     @BeforeSuite
@@ -30,7 +32,7 @@ public class BaseTest {
         DriverManager.setDriver(driver); //Gán giá trị driver vào trong ThreadLocal
     }
 
-    //Khi đã truyền tham số (tham số được truyêền trong file xml) vào sẽ chạy hàm này
+    //Khi đã truyền tham số (tham số được truyền trong file xml) vào sẽ chạy hàm này
     public WebDriver setupDriver(String browserName) {
         WebDriver driver; //driver là để mang giá trị tạm thời
 
@@ -74,6 +76,8 @@ public class BaseTest {
 
     @AfterMethod
     public void closerDriver(){
+
+        //Trước khi tắt driver trong trường hợp testcase bị fail thì sẽ chụp màn hình cái đoạn dừng bị fail đó rồi mới tắt
         DriverManager.quit();
     }
 }
