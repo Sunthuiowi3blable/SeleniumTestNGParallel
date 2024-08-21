@@ -2,9 +2,12 @@ package BT12BT13.testcases;
 
 import BT12BT13.pages.LoginPage;
 import common.BaseTest;
+import dataproviders.DataProviderFactory;
 import helpers.CaptureHelper;
 import helpers.ExcelHelper;
 import org.testng.annotations.Test;
+
+import java.util.Hashtable;
 
 public class LoginTest extends BaseTest {
 
@@ -70,27 +73,27 @@ public class LoginTest extends BaseTest {
 //        loginPage.verifyLoginSuccess();
 //    }
 //
-//    //Testcase đăng nhập không thành công với email trống (null)
-//    @Test (dataProvider = "data_provider_login_fail_with_email_null_excel_hashtable", dataProviderClass = DataProviderFactory.class)
-//    public void testLoginFailWithEmailNull(Hashtable<String, String> data){
-//        //Khởi tạo đối tượng
-//        loginPage = new LoginPage();
-//
-//        //Khởi tạo đối tượng ExcelHelper (file Excel)
-//        excelHelper = new ExcelHelper();
-//
-//        //Đọc Data từ file Excel
-//        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Login");
-//
-//        //Gọi hàm đăng nhập
-//        loginPage.loginCMS(data.get("EMAIL"), data.get("PASSWORD"));
-//
-//        //Chụp màn hình
-//        CaptureHelper.screenshot("LoginFailWithEmailNull");
-//
-//        //Gọi hàm xử lý đăng nhập không thành công với email trống (null)
-//        loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 2));
-//    }
+    //Testcase đăng nhập không thành công với email trống (null)
+    @Test (dataProvider = "data_provider_login_fail_with_email_null_excel_hashtable", dataProviderClass = DataProviderFactory.class)
+    public void testLoginFailWithEmailNull(Hashtable<String, String> data){
+        //Khởi tạo đối tượng
+        loginPage = new LoginPage();
+
+        //Khởi tạo đối tượng ExcelHelper (file Excel)
+        excelHelper = new ExcelHelper();
+
+        //Đọc Data từ file Excel
+        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Login");
+
+        //Gọi hàm đăng nhập
+        loginPage.loginCMS(data.get("EMAIL"), data.get("PASSWORD"));
+
+        //Chụp màn hình
+        CaptureHelper.screenshot("LoginFailWithEmailNull");
+
+        //Gọi hàm xử lý đăng nhập không thành công với email trống (null)
+        loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 2));
+    }
 
     //Testcase đăng nhập không thành công với password trống (null)
     @Test

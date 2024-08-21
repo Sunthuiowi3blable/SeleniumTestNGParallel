@@ -10,6 +10,7 @@ import org.monte.screenrecorder.ScreenRecorder;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
+import utils.LogUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -33,7 +34,7 @@ public class CaptureHelper extends ScreenRecorder {
         this.name = name;
     }
 
-    //Hàm này bắt buộc để ghi đè custom lại hàm trong thư viên viết sẵn
+    //Hàm này bắt buộc để ghi đè để custom lại hàm trong thư viên viết sẵn
     @Override
     protected File createMovieFile(Format fileFormat) throws IOException {
 
@@ -58,9 +59,9 @@ public class CaptureHelper extends ScreenRecorder {
 
         GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
         try {
-            screenRecorder = new CaptureHelper(gc, captureSize, new Format(MediaTypeKey, FormatKeys.MediaType.FILE, MimeTypeKey, MIME_AVI), new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey, Rational.valueOf(15), QualityKey, 1.0f, KeyFrameIntervalKey, 15 * 60), new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)), null, file, methodName);
+            screenRecorder = new CaptureHelper(gc, captureSize, new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_AVI), new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey, Rational.valueOf(15), QualityKey, 1.0f, KeyFrameIntervalKey, 15 * 60), new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)), null, file, methodName);
             screenRecorder.start();
-        }    catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (AWTException e) {
             throw new RuntimeException(e);
@@ -96,9 +97,9 @@ public class CaptureHelper extends ScreenRecorder {
         //Lưu file ảnh với tên cụ thể vào đường dẫn
         try {
             FileHandler.copy(source, new File(ConfigData.SCREENSHOT_PATH+ imageName + "-"+ dateFormat.format(new Date()) + ".png"));
-            System.out.println("Screenshot successfully !!");
+            LogUtils.info("Screenshot successfully !!");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -122,9 +123,9 @@ public class CaptureHelper extends ScreenRecorder {
         //Lưu file ảnh với tên cụ thể vào đường dẫn
         try {
             FileHandler.copy(source, new File(ConfigData.SUCCESS_SCREENSHOT_PATH+ imageName + "-"+ dateFormat.format(new Date()) + ".png"));
-            System.out.println("Screenshot successfully !!");
+            LogUtils.info("Screenshot successfully !!");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -148,9 +149,9 @@ public class CaptureHelper extends ScreenRecorder {
         //Lưu file ảnh với tên cụ thể vào đường dẫn
         try {
             FileHandler.copy(source, new File(ConfigData.FAIL_SCREENSHOT_PATH+ imageName + "-"+ dateFormat.format(new Date()) + ".png"));
-            System.out.println("Screenshot successfully !!");
+            LogUtils.info("Screenshot successfully !!");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LogUtils.error(e.getMessage());
         }
     }
 }

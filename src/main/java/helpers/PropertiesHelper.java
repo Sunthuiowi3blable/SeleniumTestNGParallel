@@ -1,5 +1,7 @@
 package helpers;
 
+import utils.LogUtils;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class PropertiesHelper {
                 tempProp.load(file);
                 properties.putAll(tempProp);
             }
+            LogUtils.info("Loaded all properties: " + properties);
             return properties;
         } catch (IOException ioe) {
             return new Properties();
@@ -46,7 +49,7 @@ public class PropertiesHelper {
             properties.load(file);
             file.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -58,7 +61,7 @@ public class PropertiesHelper {
             properties.load(file);
             file.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(e.getMessage());
         }
     }
 
@@ -76,7 +79,7 @@ public class PropertiesHelper {
             // Lấy giá trị từ file đã Set
             value = properties.getProperty(key);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogUtils.error(e.getMessage());
         }
         return value;
     }
@@ -93,12 +96,12 @@ public class PropertiesHelper {
             }
             //Ghi vào cùng file Prop với file lấy ra
             out = new FileOutputStream(linkFile);
-            System.out.println(linkFile);
+            LogUtils.info(linkFile);
             properties.setProperty(key, keyValue);
             properties.store(out, null);
             out.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogUtils.error(e.getMessage());
         }
     }
 
