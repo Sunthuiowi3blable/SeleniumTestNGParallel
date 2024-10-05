@@ -29,6 +29,8 @@ public class LoginPage extends CommonPage {
 
     private By menuDashboard = By.xpath("//span[normalize-space()='Dashboard']");
 
+    private By alertLogin = By.xpath("//span[normalize-space()='Invalid login credentials']");
+
     //** Khai báo các hàm xử lý thuộc trang Login **
 
     //Hàm nhập Email
@@ -104,4 +106,12 @@ public class LoginPage extends CommonPage {
         Assert.assertEquals(validationMessage, expectedAlert, "FAIL. The content of error massage not match!");
     }
 
+    //Hàm xử lý Email hoặc Password nhập sai
+    public void verifyLoginFailWithEmailOrPasswordInvalid(String expectedAlert){
+        //Chờ trang load xong
+        WebUI.waitForPageLoaded();
+
+        //Hàm kiểm tra phần tử có hiển thị đúng với mong đợi hay không
+        WebUI.assertEquals(WebUI.getElementText(alertLogin), expectedAlert, "FAIL. The content of error massage not match!");
+    }
 }

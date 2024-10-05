@@ -133,6 +133,44 @@ public class LoginTest extends BaseTest {
         loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 4));
     }
 
+//    //Testcase đăng nhập không thành công với Email nhập không hợp lệ (invalid)
+//    @Test
+//    public void testLoginFailWithEmailInvalid(){
+//        //Khởi tạo đối tượng
+//        loginPage = new LoginPage();
+//
+//        //Khởi tạo đối tượng ExcelHelper (file Excel)
+//        excelHelper = new ExcelHelper();
+//
+//        //Đọc Data từ file Excel
+//        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Login");
+//
+//        //Gọi hàm đăng nhập
+//        loginPage.loginCMS(excelHelper.getCellData("EMAIL", 5), excelHelper.getCellData("PASSWORD", 5));
+//
+//        //Gọi hàm xử lý
+//        loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 5));
+//    }
+//
+//    //Testcase đăng nhập không thành công với Password nhập không hợp lệ (invalid)
+//    @Test
+//    public void testLoginFailWithPasswordInvalid(){
+//        //Khởi tạo đối tượng
+//        loginPage = new LoginPage();
+//
+//        //Khởi tạo đối tượng ExcelHelper (file Excel)
+//        excelHelper = new ExcelHelper();
+//
+//        //Đọc Data từ file Excel
+//        excelHelper.setExcelFile("src/test/resources/testdata/DataTest.xlsx", "Login");
+//
+//        //Gọi hàm đăng nhập
+//        loginPage.loginCMS(excelHelper.getCellData("EMAIL", 6), excelHelper.getCellData("PASSWORD", 6));
+//
+//        //Gọi hàm xử lý
+//        loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 6));
+//    }
+
     //Testcase đăng nhập không thành công với Email nhập không hợp lệ (invalid)
     @Test
     public void testLoginFailWithEmailInvalid(){
@@ -149,7 +187,7 @@ public class LoginTest extends BaseTest {
         loginPage.loginCMS(excelHelper.getCellData("EMAIL", 5), excelHelper.getCellData("PASSWORD", 5));
 
         //Gọi hàm xử lý
-        loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 5));
+        loginPage.verifyLoginFailWithEmailOrPasswordInvalid(excelHelper.getCellData("ALERT", 5));
     }
 
     //Testcase đăng nhập không thành công với Password nhập không hợp lệ (invalid)
@@ -168,6 +206,6 @@ public class LoginTest extends BaseTest {
         loginPage.loginCMS(excelHelper.getCellData("EMAIL", 6), excelHelper.getCellData("PASSWORD", 6));
 
         //Gọi hàm xử lý
-        loginPage.verifyLoginFailWithEmail(excelHelper.getCellData("ALERT", 6));
+        loginPage.verifyLoginFailWithEmailOrPasswordInvalid(excelHelper.getCellData("ALERT", 6));
     }
 }
